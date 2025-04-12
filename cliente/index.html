@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Biblionline - Biblioteca Online</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Biblionline - Biblioteca Online 📚</h1>
+    </header>
+
+    <section id="rest">
+        <h2>API REST</h2>
+        <button id="restPing">Testar REST (/ping)</button>
+        <div id="restResult"></div>
+    </section>
+
+    <section id="graphql">
+        <h2>API GraphQL</h2>
+        <button id="graphqlHello">Testar GraphQL (Query hello)</button>
+        <div id="graphqlResult"></div>
+    </section>
+
+    <section id="soap">
+        <h2>API SOAP</h2>
+        <button id="soapCall">Testar SOAP (buscar_livro)</button>
+        <div id="soapResult"></div>
+    </section>
+
+    <section id="grpc">
+        <h2>Serviço gRPC</h2>
+        <p>Os testes gRPC serão feitos na seção de scripts de cliente. <!-- geralmente é testado com ferramentas específicas -->
+        </p>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

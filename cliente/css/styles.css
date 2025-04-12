@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f7f7f7;
+}
+
+header,
+section {
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+    color: #333;
+}
+
+button {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+div {
+    margin-top: 10px;
+    font-family: monospace;
+    background: #eee;
+    padding: 10px;
+    border-radius: 3px;
+}
