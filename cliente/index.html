@@ -3,38 +3,75 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Biblionline - Biblioteca Online</title>
+    <title>Biblionline</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/x-icon" href="biblionline_icon.ico">
 </head>
 
 <body>
     <header>
-        <h1>Biblionline - Biblioteca Online 📚</h1>
+        <h1>Biblionline 📚</h1>
+        <p>Um Sistema de Biblioteca Online Integrado com REST, SOAP, GraphQL e gRPC</p>
     </header>
 
-    <section id="rest">
-        <h2>API REST</h2>
-        <button id="restPing">Testar REST (/ping)</button>
-        <div id="restResult"></div>
-    </section>
+    <main>
+        <!-- Seção para testar o API REST (ping) -->
+        <section class="card">
+            <h2>🔗 API REST</h2>
+            <button id="restPing">Testar REST (/ping)</button>
+            <pre id="restResult">Clique para testar.</pre>
+        </section>
 
-    <section id="graphql">
-        <h2>API GraphQL</h2>
-        <button id="graphqlHello">Testar GraphQL (Query hello)</button>
-        <div id="graphqlResult"></div>
-    </section>
+        <!-- Seção para Gestão (CRUD) de Livros via API REST -->
+        <section class="card">
+            <h2>Gestão de Livros</h2>
+            <form id="livroForm">
+                <input type="hidden" id="livroId">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" placeholder="Digite o título" required>
+                <label for="autor">Autor:</label>
+                <input type="text" id="autor" placeholder="Digite o autor" required>
+                <label for="ano">Ano:</label>
+                <input type="number" id="ano" placeholder="Digite o ano" required>
+                <button type="submit">Salvar Livro</button>
+                <button type="button" id="limparForm">Limpar</button>
+            </form>
+            <div>
+                <h3>Livros Cadastrados</h3>
+                <ul id="listaLivros"></ul>
+            </div>
+        </section>
 
-    <section id="soap">
-        <h2>API SOAP</h2>
-        <button id="soapCall">Testar SOAP (buscar_livro)</button>
-        <div id="soapResult"></div>
-    </section>
+        <section class="card">
+            <h2>🔍 API GraphQL</h2>
+            <button id="graphqlHello">Testar GraphQL (Query hello)</button>
+            <pre id="graphqlResult">Clique para testar.</pre>
+        </section>
 
-    <section id="grpc">
-        <h2>Serviço gRPC</h2>
-        <p>Os testes gRPC serão feitos na seção de scripts de cliente. <!-- geralmente é testado com ferramentas específicas -->
-        </p>
-    </section>
+
+        <section class="card">
+            <h2>📚 Consulta via SOAP</h2>
+            <label for="soap-book-title">Título do Livro:</label>
+            <input type="text" id="soap-book-title" placeholder="Digite o título do livro">
+            <button id="soapCall">Buscar Livro</button>
+            <pre id="soapResult">O resultado da consulta aparecerá aqui.</pre>
+        </section>
+
+        <section class="card">
+            <h2>⚙️ gRPC</h2>
+            <p>Os testes gRPC serão feitos na seção de scripts de cliente.
+                <!-- geralmente é testado com ferramentas específicas -->
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblionline - Projeto de Integração de Sistemas</p>
+        <p>Desenvolvido por: Guilherme Barbosa | Nº 230000002</p>
+        <p>Docente: Felipe Madeira</p>
+        <p>Licenciatura em Informática - 2º ano</p>
+        <p>Escola Superior de Gestão e Tecnologia de Santarém (ESGTS)</p>
+    </footer>
 
     <script src="js/main.js"></script>
 </body>
