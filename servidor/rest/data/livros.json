@@ -1,11 +1,5 @@
 [
     {
-        "id": 2,
-        "titulo": "Diário de um Banana",
-        "autor": "Jeff Kinney",
-        "ano": 2007
-    },
-    {
         "id": 3,
         "titulo": "O Pequeno Príncipe",
         "autor": "Antoine de Saint-Exupéry",
@@ -16,12 +10,6 @@
         "titulo": "1984",
         "autor": "George Orwell",
         "ano": 1949
-    },
-    {
-        "id": 5,
-        "titulo": "Dom Casmurro",
-        "autor": "Machado de Assis",
-        "ano": 1899
     },
     {
         "titulo": "Harry Potter e a Pedra Filosofal",

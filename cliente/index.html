@@ -15,15 +15,12 @@
     </header>
 
     <main>
-        <!-- Seção para testar o API REST (ping) -->
+        <!-- Seção para testar o API REST (ping) e CRUD de Livros -->
         <section class="card">
             <h2>🔗 API REST</h2>
             <button id="restPing">Testar REST (/ping)</button>
             <pre id="restResult">Clique para testar.</pre>
-        </section>
-
-        <!-- Seção para Gestão (CRUD) de Livros via API REST -->
-        <section class="card">
+            <hr>
             <h2>Gestão de Livros</h2>
             <form id="livroForm">
                 <input type="hidden" id="livroId">
@@ -46,6 +43,16 @@
             <h2>🔍 API GraphQL</h2>
             <button id="graphqlHello">Testar GraphQL (Query hello)</button>
             <pre id="graphqlResult">Clique para testar.</pre>
+            <hr>
+            <h2>📚 Consulta de Livros</h2>
+            <label for="graphql-title">Título do Livro:</label>
+            <input type="text" id="graphql-title" placeholder="Digite o título do livro">
+            <label for="graphql-author">Autor do Livro:</label>
+            <input type="text" id="graphql-author" placeholder="Digite o autor do livro">
+            <label for="graphql-year">Ano do Livro:</label>
+            <input type="number" id="graphql-year" placeholder="Digite o ano do livro">
+            <button id="graphqlSearch">Buscar Livro</button>
+            <pre id="graphqlResult">Clique para testar.</pre>
         </section>
 
 
@@ -58,10 +65,27 @@
         </section>
 
         <section class="card">
-            <h2>⚙️ gRPC</h2>
-            <p>Os testes gRPC serão feitos na seção de scripts de cliente.
-                <!-- geralmente é testado com ferramentas específicas -->
-            </p>
+            <h2>Gestão de Utilizadores via gRPC ⚙️</h2>
+            <h3>👤 Cadastro (Serviço Unário)</h3>
+            <input type="text" id="reg-nome" placeholder="Nome completo">
+            <input type="email" id="reg-email" placeholder="Email">
+            <input type="password" id="reg-senha" placeholder="Senha">
+            <select id="reg-tipo">
+                <option value="cliente">Cliente</option>
+                <option value="bibliotecario">Bibliotecário</option>
+            </select>
+            <button id="btnRegistrar">Registrar</button>
+            <pre id="resultadoRegistro"></pre>
+            <hr>
+            <h3>🔐 Login (Serviço Unário)</h3>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-senha" placeholder="Senha">
+            <button id="btnLogin">Login</button>
+            <pre id="resultadoLogin"></pre>
+            <hr>
+            <h3>👥 Listagem de Utilizadores (Streaming)</h3>
+            <button id="usuariosBtn">Listar</button>
+            <pre id="usuariosResult"></pre>
         </section>
     </main>
 

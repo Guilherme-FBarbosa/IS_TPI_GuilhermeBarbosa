@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package usuarios;
+
+import "google/protobuf/empty.proto";
+
+// Mensagens para cadastro e login:
+message Usuario {
+	int32 id = 1;
+	string nome = 2;
+	string email = 3;
+	string senha = 4;
+	string tipo = 5; // cliente ou bibliotecario
+}
+
+message CadastroRequest {
+	Usuario usuario = 1;
+}
+
+message CadastroResponse {
+	string mensagem = 1;
+}
+
+message LoginRequest {
+	string email = 1;
+	string senha = 2;
+}
+
+message LoginResponse {
+	bool sucesso = 1;
+	string mensagem = 2;
+	Usuario usuario = 3;
+}
+
+message ListarUsuariosResponse {
+	repeated Usuario usuarios = 1;
+}
+
+// Serviço gRPC para gestão de utilizadores:
+service GestaoUsuarios {
+	rpc CadastrarUsuario (CadastroRequest) returns (CadastroResponse);
+	rpc Login (LoginRequest) returns (LoginResponse);
+	rpc ListarUsuarios (google.protobuf.Empty) returns (ListarUsuariosResponse);
+}
