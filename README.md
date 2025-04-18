@@ -34,12 +34,28 @@ Conta também com um site que serve como uma interface central para interagir co
 - Suporte a CORS.
 
 ### ✅ API GraphQL
-- Estrutura inicial desenvolvida com FastAPI + Strawberry para permitir consultas flexíveis (exemplo: query `{ hello }`).
+- Estrutura inicial desenvolvida com FastAPI + Strawberry para permitir consultas flexíveis (exemplo: query `{ hello }`);
+- **Query** `livros(titulo, autor, ano)`:  
+  - filtra por substring de título e autor (case‑insensitive)  
+  - filtra por ano exato  
+- **Query** `buscar_por_jsonpath(caminho: string)`: retorna nós via JSONPath  
+- **Mutation** `adicionar_livro(id, titulo, autor, ano) → String`:  
+  - valida contra `schemas/livro_schema.json`  
+  - persiste em `dados/livros.json`  
 
 ### ⚙️ gRPC
 - A estrutura inicial está criada, mais testes e definição de métodos ainda serão feitas;
 - No momento, há um teste do serviço gRPC definido no arquivo `helloworld.proto`.
-
+- **RPC Unários**  
+  - `CadastrarUsuario(CadastroRequest) → CadastroResponse`  
+  - `Login(LoginRequest) → LoginResponse`  
+- **RPC Streaming**  
+  - `ListarUsuarios(google.protobuf.Empty) → stream Usuario`  
+- **Persistência**: `servidor/grpc/dados/usuarios.xml` (XML + XSD + JSON Schema)  
+- **Gateway HTTP**:  
+  - `POST /grpc/register` → faz CadastrarUsuario  
+  - `POST /grpc/login` → faz Login  
+  - `GET  /usuarios` → consome `ListarUsuarios` e retorna JSON  
 ---
 
 ## 💻 Funcionalidades no Site/Front-end (Cliente)
@@ -96,6 +112,63 @@ Conta também com um site que serve como uma interface central para interagir co
     python3 -m http.server 8085
     ```
 3. Utilizando a VPN da escola ou ligado à rede eduroam, acesse no navegador (ex.: `http://192.168.246.26:8085` ou configure o VirtualHost do Apache para servir essa pasta).
+
+## Pré-requisitos
+
+- Registrar DNS (hosts local ou VPN/eduroam):
+No arquivo hosts do windows adicionar →
+192.168.246.26 biblionline.local
+192.168.246.26 api.biblionline.local
+
+- Apache2, mod_wsgi instalados e habilitados.
+
+- systemd units definidos para SOAP e gRPC:
+- `soap.service`
+- `grpc.service`
+- (REST & GraphQL funcionam sob o Apache)
+
+---
+
+### 1. Configurar & Iniciar Apache
+
+```bash
+sudo a2ensite api-biblionline.conf
+sudo a2ensite soap-biblionline.conf
+sudo a2ensite graphql-biblionline.conf
+sudo a2ensite grpc-biblionline.conf
+sudo systemctl reload apache2
+```
+
+### 2. SOAP & gRPC via systemd
+```bash
+sudo systemctl enable --now soap.service
+sudo systemctl enable --now grpc.service
+```
+
+### 3. Testes Manuais
+**- REST:**
+```bash
+curl http://api.biblionline.local/ping
+curl http://api.biblionline.local/livros
+```
+**- SOAP:**
+Enviar Envelope SOAP a http://soap.biblionline.local:8005/ com <buscar_livro>.
+**- GraphQL:**
+```bash
+curl -X POST http://biblionline.local/graphql \
+     -H "Content-Type: application/json" \
+     -d '{"query":"{ livros(titulo:\"1984\"){titulo,autor,ano}}"}'
+```
+**- gRPC (via HTTP‑Gateway):**
+```bash
+curl -X POST http://biblionline.local/grpc/register \
+     -H "Content-Type: application/json" \
+     -d '{"nome":"Ana","email":"ana@ex.com","senha":"123","tipo":"cliente"}'
+curl -X POST http://biblionline.local/grpc/login \
+     -H "Content-Type: application/json" \
+     -d '{"email":"ana@ex.com","senha":"123"}'
+curl http://biblionline.local/usuarios
+```
 
 ### Observação: defini meus serviços como fazendo parte do systemd, assim, eles ficam rodando direto, sem a necessidade de ter que ativá-los toda vez que forem ser usados. Caso o servidor reinicie, eles serão iniciados automaticamente assim como o Apache.
 ### Também configurei meu VirtualHost do Apache para servir ao diretório onde fiz o site, assim, ao buscar `http://biblionline.local/` no navegador da máquina física, ele já vai direto para a interface desenvolvida. Não havendo assim a necessidade de executar o comando `python3 -m http.server 8085` no diretório do cliente toda vez que for querer utilizar o site.
