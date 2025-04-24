@@ -8,7 +8,7 @@ from typing import List, Optional
 from jsonschema import validate, ValidationError
 from jsonpath_ng import parse
 
-DADOS_PATH = "dados/livros.json"
+DADOS_PATH = "../rest/data/livros.json"
 SCHEMA_PATH = "schemas/livro_schema.json"
 
 if not os.path.exists(DADOS_PATH):

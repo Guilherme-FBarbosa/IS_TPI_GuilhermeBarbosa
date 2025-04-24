@@ -30,9 +30,9 @@
         "id": 8
     },
     {
-        "titulo": "Murder on the Orient Express - Versão Atulizada",
+        "titulo": "Assassinato no Expresso Oriente",
         "autor": "Agatha Christie",
-        "ano": 1937,
+        "ano": 1934,
         "id": 9
     },
     {
@@ -44,7 +44,43 @@
     {
         "titulo": "Dom Casmurro",
         "autor": "Machado Pereira",
-        "ano": 1900,
+        "ano": 1899,
         "id": 11
+    },
+    {
+        "titulo": "Triste Fim de Policarpo Quaresma",
+        "autor": "Lima Barreto",
+        "ano": 1915,
+        "id": 12
+    },
+    {
+        "titulo": "The Scarecrow of Oz",
+        "autor": "L. Frank Baum",
+        "ano": 1915,
+        "id": 13
+    },
+    {
+        "titulo": "Harry Potter e o Prisioneiro de Azkaban",
+        "autor": "J. K. Rowling",
+        "ano": 1999,
+        "id": 14
+    },
+    {
+        "titulo": "Morte no Nilo",
+        "autor": "Agatha Christie",
+        "ano": 1947,
+        "id": 15
+    },
+    {
+        "titulo": "O Assassinato de Roger Ackroyd",
+        "autor": "Agatha Christie",
+        "ano": 1926,
+        "id": 16
+    },
+    {
+        "titulo": "E não sobrou nenhum",
+        "autor": "Agatha Christie",
+        "ano": 1939,
+        "id": 17
     }
 ]
