@@ -149,7 +149,7 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     usuarios_pb2_grpc.add_GestaoUsuariosServicer_to_server(GestaoUsuariosService(), server)
     server.add_insecure_port('[::]:50052')
-    print("gRPC de gestão de utilizadores rodando na porta 50052...")
+    print("gRPC de gestão de utilizadores rodando na porta 50054...")
     server.start()
     server.wait_for_termination()
 

@@ -42,4 +42,32 @@
     <senha>1234</senha>
     <tipo>cliente</tipo>
   </usuario>
+  <usuario>
+    <id>7</id>
+    <nome>teste6</nome>
+    <email>teste6</email>
+    <senha>teste6</senha>
+    <tipo>cliente</tipo>
+  </usuario>
+  <usuario>
+    <id>8</id>
+    <nome>teste10</nome>
+    <email>teste10@gmail.com</email>
+    <senha>123</senha>
+    <tipo>bibliotecario</tipo>
+  </usuario>
+  <usuario>
+    <id>9</id>
+    <nome>Guilherme Fernandes Barbosa</nome>
+    <email>guilherme@gmail.com</email>
+    <senha>123</senha>
+    <tipo>bibliotecario</tipo>
+  </usuario>
+  <usuario>
+    <id>10</id>
+    <nome>teste</nome>
+    <email>teste@gmail.com</email>
+    <senha>123</senha>
+    <tipo>cliente</tipo>
+  </usuario>
 </usuarios>

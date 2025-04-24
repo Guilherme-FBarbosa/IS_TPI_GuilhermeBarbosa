@@ -101,8 +101,8 @@ def remover_livro(id):
     if len(livros) == orig:
         return Response(json.dumps({'erro': 'Livro não encontrado'}), status=404, mimetype='application/json')
     escrever_livros(livros)
-    return Response(status=204)
+    return Response('livro excluído com sucesso!', status=204, mimetype='text/plain')
 
 @app.route('/ping')
 def ping():
-    return Response('pong', mimetype='text/plain')
+    return Response('pong - o REST está funcionando!', mimetype='text/plain')

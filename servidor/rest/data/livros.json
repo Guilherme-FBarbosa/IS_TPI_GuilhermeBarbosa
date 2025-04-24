@@ -28,5 +28,23 @@
         "autor": "J. K. Rowling",
         "ano": 1998,
         "id": 8
+    },
+    {
+        "titulo": "Murder on the Orient Express - Versão Atulizada",
+        "autor": "Agatha Christie",
+        "ano": 1937,
+        "id": 9
+    },
+    {
+        "titulo": "A Metamorfose",
+        "autor": "Franz Kafka",
+        "ano": 1915,
+        "id": 10
+    },
+    {
+        "titulo": "Dom Casmurro",
+        "autor": "Machado Pereira",
+        "ano": 1900,
+        "id": 11
     }
 ]
