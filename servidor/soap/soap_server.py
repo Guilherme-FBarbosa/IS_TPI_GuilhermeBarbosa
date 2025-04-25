@@ -98,5 +98,5 @@ def cors_middleware(app):
 
 if __name__ == '__main__':
 	print("SOAP server online em http://localhost:8105")
-	server = make_server('0.0.0.0', 8105, cors_middleware(WsgiApplication(application)))
+	server = make_server('0.0.0.0', 8005, cors_middleware(WsgiApplication(application)))
 	server.serve_forever()

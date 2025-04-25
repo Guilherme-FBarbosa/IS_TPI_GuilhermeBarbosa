@@ -1,3 +1,84 @@
+// Expansão/recolhimento das seções com setinha
+document.querySelectorAll('.card .toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const card = this.closest('.card');
+    card.classList.toggle('collapsed');
+  });
+});
+
+// Função para exportar livros em formato JSON (o cliente baixa o arquivo JSON de livros do servidor)
+function baixarLivrosJSON() {
+  window.open("http://api.biblionline.local/exportar/json", "_blank");
+}
+
+// Função para importar livros em formato JSON (o cliente manda um arquivo JSON para o servidor)
+function importarLivrosJSON() {
+  const input = document.getElementById('arquivo-json');
+  const file = input.files[0];
+
+  if (!file) {
+    alert("Selecione um arquivo JSON antes de importar.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const jsonData = JSON.parse(reader.result);
+
+      fetch("http://api.biblionline.local/importar/json", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jsonData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('importarResultado').textContent = JSON.stringify(data, null, 2);
+          carregarLivros(); // Atualiza a lista de livros se for bem-sucedido
+        })
+        .catch(err => {
+          document.getElementById('importarResultado').textContent = "Erro ao importar: " + err;
+        });
+    } catch (err) {
+      document.getElementById('importarResultado').textContent = "Erro ao processar o JSON: " + err.message;
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+// Função para exportar usuários em XML (o cliente baixa o arquivo XML de usuários do servidor)
+function baixarUsuariosXML() {
+  window.open("http://biblionline.local/grpc/exportar/xml", "_blank");
+}
+
+// Função para importar usuários em XML (o cliente manda um arquivo XML para o servidor)
+function importarUsuariosXML() {
+  const input = document.getElementById('arquivo-xml');
+  const file = input.files[0];
+
+  if (!file) {
+    alert("Selecione um arquivo XML antes de importar.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("arquivo", file);
+
+  fetch("http://biblionline.local/grpc/importar/xml", {
+    method: "POST",
+    body: formData
+  })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("importarUsuariosResultado").textContent = JSON.stringify(data, null, 2);
+      listarUsuarios(); // Atualiza a listagem de usuários após a importação
+    })
+    .catch(error => {
+      document.getElementById("importarUsuariosResultado").textContent = "Erro ao importar XML: " + error;
+    });
+}
+
 // ===========================================================
 // Função para testar a API REST (/ping)
 // ===========================================================
@@ -126,10 +207,10 @@ document.getElementById('graphqlHello').addEventListener('click', function () {
   })
     .then(response => response.json())
     .then(data => {
-      document.getElementById('graphqlResult').textContent = JSON.stringify(data);
+      document.getElementById('graphqlHelloResult').textContent = JSON.stringify(data);
     })
     .catch(error => {
-      document.getElementById('graphqlResult').textContent = error;
+      document.getElementById('graphqlHelloResult').textContent = error;
     });
 });
 
@@ -139,17 +220,17 @@ document.getElementById('graphqlHello').addEventListener('click', function () {
 document.getElementById('graphqlSearch').addEventListener('click', function () {
   const title = document.getElementById('graphql-title').value.trim();
   const author = document.getElementById('graphql-author').value.trim();
-  const year   = document.getElementById('graphql-year').value.trim();
+  const year = document.getElementById('graphql-year').value.trim();
 
   let args = [];
-  if (title)  args.push(`titulo: "${title}"`);
+  if (title) args.push(`titulo: "${title}"`);
   if (author) args.push(`autor:  "${author}"`);
-  if (year)   args.push(`ano: ${parseInt(year, 10)}`);
+  if (year) args.push(`ano: ${parseInt(year, 10)}`);
 
   let argsStr = args.length ? `(${args.join(", ")})` : "";
   const query = `{ livros${argsStr} { titulo, autor, ano } }`;
 
-  fetch('/graphql', { 
+  fetch('/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query })
@@ -157,7 +238,7 @@ document.getElementById('graphqlSearch').addEventListener('click', function () {
     .then(r => r.json())
     .then(payload => {
       const livros = payload.data?.livros || [];
-      const pre = document.getElementById('graphqlResult');
+      const pre = document.getElementById('graphqlSearchResult');
       if (livros.length) {
         pre.textContent = livros.map(l => `${l.titulo} — ${l.autor} (${l.ano})`).join("\n");
       } else {
@@ -217,7 +298,7 @@ document.getElementById('soapCall').addEventListener('click', function () {
 // ===========================================================
 // Função registrar um novo usuário com o gRPC
 // ===========================================================
-document.getElementById('btnRegistrar').addEventListener('click', function() {
+document.getElementById('btnRegistrar').addEventListener('click', function () {
   const nome = document.getElementById('reg-nome').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const senha = document.getElementById('reg-senha').value.trim();
@@ -242,7 +323,7 @@ document.getElementById('btnRegistrar').addEventListener('click', function() {
 // ===========================================================
 // Função para fazer login com o gRPC
 // ===========================================================
-document.getElementById('btnLogin').addEventListener('click', function() {
+document.getElementById('btnLogin').addEventListener('click', function () {
   const email = document.getElementById('login-email').value.trim();
   const senha = document.getElementById('login-senha').value.trim();
 

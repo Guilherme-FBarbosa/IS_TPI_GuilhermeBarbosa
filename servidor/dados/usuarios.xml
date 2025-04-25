@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<usuarios>
+  <usuario>
+    <id>1</id>
+    <nome>teste_site_1</nome>
+    <email>teste_site_1</email>
+    <senha>$2b$12$CNx3KeBGkWg3VGuLICoQh.RWcgm3Cd5y1wufCst7ysi54XoWYT6Zm</senha>
+    <tipo>cliente</tipo>
+  </usuario>
+  <usuario>
+    <id>2</id>
+    <nome>teste_site_2</nome>
+    <email>teste_site_2</email>
+    <senha>$2b$12$cuYC105suC3kL.SYYS1A8udEd1YpDF8iqeK/z7dlx9t6w7KhEUDs6</senha>
+    <tipo>bibliotecario</tipo>
+  </usuario>
+  <usuario>
+    <id>3</id>
+    <nome>teste_xml_importado_1</nome>
+    <email>teste_xml_importado_1</email>
+    <senha>$2b$12$1b8yHPdPqLRgGA9NiT8zTO1jmG5YX8KDR3/LIDIu9S7Z3id5lS9m.</senha>
+    <tipo>bibliotecario</tipo>
+  </usuario>
+  <usuario>
+    <id>4</id>
+    <nome>teste_xml_importado_2</nome>
+    <email>teste_xml_importado_2</email>
+    <senha>$2b$12$bhCQwHjBUVqgwVJ7UvsvCe4vO//PaNkatJk0ggQT6N5FesksB82Sm</senha>
+    <tipo>bibliotecario</tipo>
+  </usuario>
+</usuarios>

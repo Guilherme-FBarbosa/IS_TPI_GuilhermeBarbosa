@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <title>Biblionline</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" type="image/x-icon" href="biblionline_icon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
 <body>
     <header>
         <h1>Biblionline 📚</h1>
@@ -15,77 +14,143 @@
     </header>
 
     <main>
-        <!-- Seção para testar o API REST (ping) e CRUD de Livros -->
+        <!-- Seção para importar e exportar livros em formato JSON -->
         <section class="card">
-            <h2>🔗 API REST</h2>
-            <button id="restPing">Testar REST (/ping)</button>
-            <pre id="restResult">Clique para testar.</pre>
-            <hr>
-            <h2>Gestão de Livros</h2>
-            <form id="livroForm">
-                <input type="hidden" id="livroId">
-                <label for="titulo">Título:</label>
-                <input type="text" id="titulo" placeholder="Digite o título" required>
-                <label for="autor">Autor:</label>
-                <input type="text" id="autor" placeholder="Digite o autor" required>
-                <label for="ano">Ano:</label>
-                <input type="number" id="ano" placeholder="Digite o ano" required>
-                <button type="submit">Salvar Livro</button>
-                <button type="button" id="limparForm">Limpar</button>
-            </form>
-            <div>
-                <h3>Livros Cadastrados</h3>
-                <ul id="listaLivros"></ul>
+            <div class="card-header">
+                <h2>📦 Importar e Exportar Livros em JSON</h2>
+                <button class="toggle-btn" aria-label="Expandir/Colapsar Seção">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="card-content">
+                <button onclick="baixarLivrosJSON()">Exportar Livros (.json)</button>
+                <hr>
+                <label for="arquivo-json">Importar arquivo JSON:</label>
+                <input type="file" id="arquivo-json" accept=".json">
+                <button onclick="importarLivrosJSON()">Importar JSON</button>
+                <pre id="importarResultado">Nenhuma importação feita ainda.</pre>
+            </div>
+        </section>          
+
+        <!-- Seção para importar e exportar usuários em formato XML -->
+        <section class="card">
+            <div class="card-header">
+                <h2>📦 Importar e Exportar Utilizadores em XML</h2>
+                <button class="toggle-btn" aria-label="Expandir/Colapsar Seção">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="card-content">
+                <button onclick="baixarUsuariosXML()">Exportar Utilizadores (.xml)</button>
+                <hr>
+                <label for="arquivo-xml">Importar arquivo XML:</label>
+                <input type="file" id="arquivo-xml" accept=".xml">
+                <button onclick="importarUsuariosXML()">Importar XML</button>
+                <pre id="importarUsuariosResultado">Nenhuma importação feita ainda.</pre>
             </div>
         </section>
 
+        <!-- Seção para testar o API REST (ping) e CRUD de Livros -->
         <section class="card">
-            <h2>🔍 API GraphQL</h2>
-            <button id="graphqlHello">Testar GraphQL (Query hello)</button>
-            <pre id="graphqlResult">Clique para testar.</pre>
-            <hr>
-            <h2>📚 Consulta de Livros</h2>
-            <label for="graphql-title">Título do Livro:</label>
-            <input type="text" id="graphql-title" placeholder="Digite o título do livro">
-            <label for="graphql-author">Autor do Livro:</label>
-            <input type="text" id="graphql-author" placeholder="Digite o autor do livro">
-            <label for="graphql-year">Ano do Livro:</label>
-            <input type="number" id="graphql-year" placeholder="Digite o ano do livro">
-            <button id="graphqlSearch">Buscar Livro</button>
-            <pre id="graphqlResult">Clique para testar.</pre>
+            <div class="card-header">
+                <h2>🔗 API REST - CRUD de Livros</h2>
+                <button class="toggle-btn" aria-label="Expandir/Colapsar Seção">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="card-content">
+                <button id="restPing">Testar REST (/ping)</button>
+                <pre id="restResult">Clique para testar.</pre>
+                <hr>
+                <h2>Gestão de Livros</h2>
+                <form id="livroForm">
+                    <input type="hidden" id="livroId">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" placeholder="Digite o título" required>
+                    <label for="autor">Autor:</label>
+                    <input type="text" id="autor" placeholder="Digite o autor" required>
+                    <label for="ano">Ano:</label>
+                    <input type="number" id="ano" placeholder="Digite o ano" required>
+                    <button type="submit">Salvar Livro</button>
+                    <button type="button" id="limparForm">Limpar</button>
+                </form>
+                <div>
+                    <h3>Livros Cadastrados</h3>
+                    <ul id="listaLivros"></ul>
+                </div>
+            </div>
         </section>
 
-
+        <!-- Seção para fazer a consulta de livros pela API GraphQL baseada em parâmetros -->
         <section class="card">
-            <h2>📚 Consulta via SOAP</h2>
-            <label for="soap-book-title">Título do Livro:</label>
-            <input type="text" id="soap-book-title" placeholder="Digite o título do livro">
-            <button id="soapCall">Buscar Livro</button>
-            <pre id="soapResult">O resultado da consulta aparecerá aqui.</pre>
+            <div class="card-header">
+                <h2>🔍 API GraphQL</h2>
+                <button class="toggle-btn" aria-label="Expandir/Colapsar Seção">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="card-content">
+                <button id="graphqlHello">Testar GraphQL (Query hello)</button>
+                <pre id="graphqlHelloResult">Clique para testar.</pre>
+                <hr>
+                <h2>📚 Consulta de Livros</h2>
+                <label for="graphql-title">Título do Livro:</label>
+                <input type="text" id="graphql-title" placeholder="Digite o título do livro">
+                <label for="graphql-author">Autor do Livro:</label>
+                <input type="text" id="graphql-author" placeholder="Digite o autor do livro">
+                <label for="graphql-year">Ano do Livro:</label>
+                <input type="number" id="graphql-year" placeholder="Digite o ano do livro">
+                <button id="graphqlSearch">Buscar Livro</button>
+                <pre id="graphqlSearchResult">Clique para testar.</pre>
+            </div>
         </section>
 
+        <!-- Seção para fazer a consulta de livros via SOAP -->
         <section class="card">
-            <h2>Gestão de Utilizadores via gRPC ⚙️</h2>
-            <h3>👤 Cadastro (Serviço Unário)</h3>
-            <input type="text" id="reg-nome" placeholder="Nome completo">
-            <input type="email" id="reg-email" placeholder="Email">
-            <input type="password" id="reg-senha" placeholder="Senha">
-            <select id="reg-tipo">
-                <option value="cliente">Cliente</option>
-                <option value="bibliotecario">Bibliotecário</option>
-            </select>
-            <button id="btnRegistrar">Registrar</button>
-            <pre id="resultadoRegistro"></pre>
-            <hr>
-            <h3>🔐 Login (Serviço Unário)</h3>
-            <input type="email" id="login-email" placeholder="Email">
-            <input type="password" id="login-senha" placeholder="Senha">
-            <button id="btnLogin">Login</button>
-            <pre id="resultadoLogin"></pre>
-            <hr>
-            <h3>👥 Listagem de Utilizadores (Streaming)</h3>
-            <button id="usuariosBtn">Listar</button>
-            <pre id="usuariosResult"></pre>
+            <div class="card-header">
+                <h2>📚 Consulta via API SOAP</h2>
+                <button class="toggle-btn" aria-label="Expandir/Colapsar Seção">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="card-content">
+                <label for="soap-book-title">Título do Livro:</label>
+                <input type="text" id="soap-book-title" placeholder="Digite o título do livro">
+                <button id="soapCall">Buscar Livro</button>
+                <pre id="soapResult">O resultado da consulta aparecerá aqui.</pre>
+            </div>
+        </section>
+
+        <!-- Seção para fazer a gestão e listagem dos usuários via gRPC -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Gestão de Utilizadores via gRPC ⚙️</h2>
+                <button class="toggle-btn" aria-label="Expandir/Colapsar Seção">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="card-content">
+                <h3>👤 Cadastro (Serviço Unário)</h3>
+                <input type="text" id="reg-nome" placeholder="Nome completo">
+                <input type="email" id="reg-email" placeholder="Email">
+                <input type="password" id="reg-senha" placeholder="Senha">
+                <select id="reg-tipo">
+                    <option value="cliente">Cliente</option>
+                    <option value="bibliotecario">Bibliotecário</option>
+                </select>
+                <button id="btnRegistrar">Registrar</button>
+                <pre id="resultadoRegistro"></pre>
+                <hr>
+                <h3>🔐 Login (Serviço Unário)</h3>
+                <input type="email" id="login-email" placeholder="Email">
+                <input type="password" id="login-senha" placeholder="Senha">
+                <button id="btnLogin">Login</button>
+                <pre id="resultadoLogin"></pre>
+                <hr>
+                <h3>👥 Listagem de Utilizadores (Streaming)</h3>
+                <button id="usuariosBtn">Listar</button>
+                <pre id="usuariosResult"></pre>
+            </div>
         </section>
     </main>
 
@@ -96,8 +161,6 @@
         <p>Licenciatura em Informática - 2º ano</p>
         <p>Escola Superior de Gestão e Tecnologia de Santarém (ESGTS)</p>
     </footer>
-
     <script src="js/main.js"></script>
 </body>
-
 </html>

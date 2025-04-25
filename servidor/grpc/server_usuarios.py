@@ -1,15 +1,15 @@
-from concurrent import futures
-import grpc
-import os
 from lxml import etree
-import json
+from concurrent import futures
+from google.protobuf import empty_pb2
 from jsonschema import validate as json_validate, ValidationError
+import os
+import grpc
 import usuarios_pb2
 import usuarios_pb2_grpc
-from google.protobuf import empty_pb2
+import bcrypt
 
-XML_FILE = "dados/usuarios.xml"
-XSD_FILE = "dados/usuarios.xsd"
+XML_FILE = "../dados/usuarios.xml"
+XSD_FILE = "../dados/usuarios.xsd"
 JSON_SCHEMA = {
     "type": "object",
     "properties": {
@@ -22,6 +22,7 @@ JSON_SCHEMA = {
     "additionalProperties": False
 }
 
+# Inicializa o XSD se não existir
 def init_xsd():
     if not os.path.exists(XSD_FILE):
         xsd_content = '''<?xml version="1.0" encoding="UTF-8"?>
@@ -50,12 +51,14 @@ def init_xsd():
         with open(XSD_FILE, "w", encoding="utf-8") as f:
             f.write(xsd_content)
 
+# Inicializa o XML se não existir
 def init_xml():
     if not os.path.exists(XML_FILE):
         root = etree.Element('usuarios')
         tree = etree.ElementTree(root)
         tree.write(XML_FILE, pretty_print=True, xml_declaration=True, encoding='utf-8')
 
+# Valida o XML com o XSD
 def validar_xml():
     xml_doc = etree.parse(XML_FILE)
     xmlschema_doc = etree.parse(XSD_FILE)
@@ -63,6 +66,7 @@ def validar_xml():
     if not xmlschema.validate(xml_doc):
         raise ValueError("XML não é válido conforme o XSD.")
 
+# Adiciona um novo usuário ao XML com hash da senha
 def adicionar_usuario(nome, email, senha, tipo):
     parser = etree.XMLParser(remove_blank_text=True)
     tree = etree.parse(XML_FILE, parser)
@@ -70,32 +74,45 @@ def adicionar_usuario(nome, email, senha, tipo):
 
     novo_id = str(len(root.findall('usuario')) + 1)
 
+    # Gera um hash da senha:
+    senha_bytes = senha.encode('utf-8')
+    salt = bcrypt.gensalt()
+    senha_hash = bcrypt.hashpw(senha_bytes, salt).decode('utf-8')
+
     usuario_el = etree.SubElement(root, 'usuario')
     etree.SubElement(usuario_el, 'id').text = novo_id
     etree.SubElement(usuario_el, 'nome').text = nome
     etree.SubElement(usuario_el, 'email').text = email
-    etree.SubElement(usuario_el, 'senha').text = senha
+    etree.SubElement(usuario_el, 'senha').text = senha_hash
     etree.SubElement(usuario_el, 'tipo').text = tipo
 
     tree.write(XML_FILE, pretty_print=True, xml_declaration=True,  encoding='utf-8')
     validar_xml()
 
+# Verifica se o login é válido comparando o hash da senha
 def verificar_login(email, senha):
     tree = etree.parse(XML_FILE)
     root = tree.getroot()
 
+    senha_bytes = senha.encode('utf-8')
+
     for usuario in root.findall('usuario'):
-        if (usuario.find('email').text == email and
-            usuario.find('senha').text == senha):
-            return True
+        if usuario.find('email').text == email:
+            senha_hash = usuario.find('senha').text.encode('utf-8')
+            # Verifica se a senha informada corresponde ao hash armazenado
+            if bcrypt.checkpw(senha_bytes, senha_hash):
+                return True
+    # Se não encontrar o usuário ou a senha não corresponder, retorna False
     return False
 
+# Converte JSON para XML
 def json_para_xml(json_data):
     usuario_el = etree.Element('usuario')
     for key, value in json_data.items():
         etree.SubElement(usuario_el, key).text = str(value)
     return etree.tostring(usuario_el, pretty_print=True, encoding='unicode')
 
+# Converte XML para JSON
 def xml_para_json(xml_string):
     root = etree.fromstring(xml_string)
     return {elem.tag: elem.text for elem in root}
